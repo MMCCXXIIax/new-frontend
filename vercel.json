@@ -1,5 +1,0 @@
-{
-  "buildCommand": "npm --prefix new-frontendemail run build",
-  "installCommand": "npm --prefix new-frontendemail install",
-  "outputDirectory": "new-frontendemail/.next"
-}
