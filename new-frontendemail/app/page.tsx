@@ -35,7 +35,7 @@ export default function BetaSignup() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0A1628] via-[#0F2642] to-[#0A1628] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-[#0A1628] via-[#0F2642] to-[#0A1628] flex items-center justify-center p-4">
         <div className="max-w-md w-full text-center space-y-6 animate-fadeIn">
           <div className="text-6xl mb-4">✅</div>
           <h1 className="text-3xl font-bold text-white">You're In!</h1>
@@ -57,7 +57,7 @@ export default function BetaSignup() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A1628] via-[#0F2642] to-[#0A1628] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-[#0A1628] via-[#0F2642] to-[#0A1628] flex items-center justify-center p-4">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl animate-pulse-slow" />
@@ -70,7 +70,7 @@ export default function BetaSignup() {
         <div className="text-center space-y-4">
           <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
             Be Among the First{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-500">
               500 Traders
             </span>
             <br />
@@ -112,7 +112,7 @@ export default function BetaSignup() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-4 bg-linear-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Reserving...' : 'Reserve My Spot'}
             </button>
