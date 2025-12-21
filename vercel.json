@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd new-frontendemail && npm run build",
-  "installCommand": "cd new-frontendemail && npm install",
-  "outputDirectory": "new-frontendemail/.next"
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": ".next"
 }
