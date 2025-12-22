@@ -79,6 +79,9 @@ export default function BetaSignup() {
           <p className="text-gray-400 text-lg">
             Spots are limited. Join the beta today.
           </p>
+          <p className="text-gray-400 text-lg">
+            A platform being built specifically for the needs of traders.
+          </p>
         </div>
 
         {/* Form Card */}
