@@ -71,49 +71,66 @@ export default function TXDashboard() {
     };
   }, []);
 
-  // Socket + Animation Logic
+    // Socket + Animation Logic
   useEffect(() => {
-    socket.on('connect', () => {
+    const handleConnect = () => {
       setConnectionStatus('Connected to V12 Engine ✅');
       toast.success('Connected to Backend');
-    });
+    };
 
-    socket.on('detection', (data: any) => {
-      const detection = {
-        ...data,
-        timestamp: new Date().toISOString()
-      };
-      
+    const handleDisconnect = () => {
+      setConnectionStatus('Disconnected');
+      toast.error('Connection Lost');
+    };
+
+    const handleDetection = (data: any) => {
+      const detection = { ...data, timestamp: new Date().toISOString() };
       setDetections(prev => [detection, ...prev].slice(0, 8));
 
       toast.success(`${data.type || 'Pattern'} Detected`, {
-        description: `${data.symbol} • ${data.confidence || 85}% confidence`,
+        description: `${data.symbol || 'UNKNOWN'} • ${data.confidence || 85}%`,
       });
 
-      // === ANIMATED DRAWING BASED ON BACKEND DATA ===
+      // === ANIMATED DRAWINGS FROM BACKEND ===
       if (lineSeriesRef.current && data.levels) {
-        // Draw Support / Resistance lines
-        const supportLine = data.levels.support ? [{ time: Date.now()/1000 - 1000, value: data.levels.support },
-                                                   { time: Date.now()/1000 + 500, value: data.levels.support }] : [];
-        const resistanceLine = data.levels.resistance ? [{ time: Date.now()/1000 - 1000, value: data.levels.resistance },
-                                                         { time: Date.now()/1000 + 500, value: data.levels.resistance }] : [];
+        const now = Date.now() / 1000;
+        const supportPoints = data.levels.support 
+          ? [{ time: now - 2000, value: data.levels.support }, { time: now + 1000, value: data.levels.support }]
+          : [];
+        const resistancePoints = data.levels.resistance 
+          ? [{ time: now - 2000, value: data.levels.resistance }, { time: now + 1000, value: data.levels.resistance }]
+          : [];
 
-        lineSeriesRef.current.setData([...supportLine, ...resistanceLine]);
+        lineSeriesRef.current.setData([...supportPoints, ...resistancePoints]);
       }
 
       if (projectionRef.current && data.projectedTarget) {
-        // Animate projected path
+        const now = Date.now() / 1000;
         const projection = [
-          { time: Date.now()/1000, value: data.currentPrice || 65000 },
-          { time: Date.now()/1000 + 300, value: data.projectedTarget }
+          { time: now, value: data.currentPrice || 65000 },
+          { time: now + 600, value: data.projectedTarget }
         ];
         projectionRef.current.setData(projection);
+      }
+    };
+
+    socket.on('connect', handleConnect);
+    socket.on('disconnect', handleDisconnect);
+    socket.on('detection', handleDetection);
+    socket.on('price_update', (data) => {
+      if (candleSeriesRef.current && data.candle) {
+        candleSeriesRef.current.update(data.candle);
       }
     });
 
     socket.connect();
 
-    return () => socket.disconnect();
+    return () => {
+      socket.off('connect', handleConnect);
+      socket.off('disconnect', handleDisconnect);
+      socket.off('detection', handleDetection);
+      socket.disconnect();
+    };
   }, []);
 
   return (
