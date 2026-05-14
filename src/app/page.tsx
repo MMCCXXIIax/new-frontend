@@ -16,34 +16,43 @@ export default function TXDashboard() {
   const [connectionStatus, setConnectionStatus] = useState('Connecting...');
   const [detections, setDetections] = useState<any[]>([]);
 
-  // Initialize Chart
+    // Initialize Chart
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
       height: 520,
-      layout: { backgroundColor: '#0a0a0a', textColor: '#ddd' },
-      grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
+      layout: { 
+        background: { color: '#0a0a0a' }, 
+        textColor: '#ddd' 
+      },
+      grid: { 
+        vertLines: { color: '#1a1a1a' }, 
+        horzLines: { color: '#1a1a1a' } 
+      },
       timeScale: { timeVisible: true, secondsVisible: false },
+      crosshair: { mode: 0 },
     });
 
     const candleSeries = chart.addCandlestickSeries({
-      upColor: '#39ff14', downColor: '#ff0033',
-      borderUpColor: '#39ff14', borderDownColor: '#ff0033',
-      wickUpColor: '#39ff14', wickDownColor: '#ff0033',
+      upColor: '#39ff14',
+      downColor: '#ff0033',
+      borderUpColor: '#39ff14',
+      borderDownColor: '#ff0033',
+      wickUpColor: '#39ff14',
+      wickDownColor: '#ff0033',
     });
 
     const lineSeries = chart.addLineSeries({
       color: '#00f5ff',
       lineWidth: 2,
-      lineStyle: 0,
     });
 
     const projectionSeries = chart.addLineSeries({
       color: '#ffd700',
       lineWidth: 2,
-      lineStyle: 2, // Dashed
+      lineStyle: 2, // dashed
     });
 
     chartRef.current = chart;
@@ -51,8 +60,9 @@ export default function TXDashboard() {
     lineSeriesRef.current = lineSeries;
     projectionRef.current = projectionSeries;
 
-    // Resize handler
-    const handleResize = () => chart.resize(chartContainerRef.current!.clientWidth, 520);
+    const handleResize = () => {
+      chart.resize(chartContainerRef.current!.clientWidth, 520);
+    };
     window.addEventListener('resize', handleResize);
 
     return () => {
